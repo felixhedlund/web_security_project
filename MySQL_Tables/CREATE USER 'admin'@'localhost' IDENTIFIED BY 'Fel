@@ -1,0 +1,2 @@
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'admin123';
+GRANT SELECT, DELETE, INSERT, UPDATE ON web_security_database.* TO 'admin'@'localhost';
