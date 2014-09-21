@@ -55,9 +55,9 @@
     <meta name="description" content="A web shop for the course Web security [EITF05]">
     <meta name="author" content="Group 13">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-    <script src="assets/bootstrap.min.js"></script>
-    <link href="assets/bootstrap.min.css" rel="stylesheet" media="screen">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="assets/js/bootstrap.min.js"></script>
+    <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style type="text/css">
         body { background: url(assets/bglight.png); }
         .hero-unit { background-color: #fff; }
@@ -67,19 +67,23 @@
 
 <body>
 
-<div class="navbar navbar-fixed-top navbar-inverse">
-  <div class="navbar-inner">
-    <div class="container">
-      <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+
+<nav class="navbar navbar-inverse" role="navigation">
+  <div class="container-fluid">
+    <!-- Brand and toggle get grouped for better mobile display -->
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
-      </a>
-      <a class="brand">Web shop</a>
-      <div class="nav-collapse collapse">
-        <ul class="nav pull-right">
-          <li><a href="register.php">Register</a></li>
-          <li class="divider-vertical"></li>
+      </button>
+      <a class="navbar-brand" href="#">Web shop</a>
+    </div>
+
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="register.php">Register</a></li>
+        <li class="divider-vertical"></li>
           <li class="dropdown">
             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Login <strong class="caret"></strong></a>
             <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
@@ -94,11 +98,10 @@
                 </form> 
             </div>
           </li>
-        </ul>
-      </div>
-    </div>
-  </div>
-</div>
+      </ul>
+    </div><!-- /.navbar-collapse -->
+  </div><!-- /.container-fluid -->
+</nav>
 
 <div class="container hero-unit">
     <h1>Index page of this web shop</h1>
