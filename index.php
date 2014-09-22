@@ -59,7 +59,7 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style type="text/css">
-        body { background: url(assets/bglight.png); }
+        body { background: url(assets/images/bglight.png); }
         .hero-unit { background-color: #fff; }
         .center { display: block; margin: 0 auto; }
     </style>
@@ -103,8 +103,17 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<div class="container hero-unit">
-    <h1>Index page of this web shop</h1>
+<div class="container" >
+    <div class "row" >
+        <div class="col-md-6">
+            <img src="assets/images/cat01.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
+        </div>
+    </div>
+    <div class "row" >
+        <div class="col-md-6">
+            <img src="assets/images/cat02.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
+        </div>
+    </div>
 </div>
 
 </body>
