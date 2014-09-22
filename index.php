@@ -105,14 +105,23 @@
 
 <div class="container" >
     <div class "row" >
-        <div class="col-md-6">
-            <img src="assets/images/cat01.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
+        <div class "row">
+            <div class="col-md-6">
+                <img src="assets/images/cat01.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
+            <div class="col-md-6">
+                <label> Cat nr 1</label> 
+                <button type="button" class="btn btn-success">Buy</button>
+            </div>
         </div>
     </div>
     <div class "row" >
         <div class="col-md-6">
             <img src="assets/images/cat02.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
         </div>
+        <div class="col-md-6">
+                <label> Cat nr 2</label> 
+                <button type="button" class="btn btn-success">Buy</button>
+            </div>
     </div>
 </div>
 
