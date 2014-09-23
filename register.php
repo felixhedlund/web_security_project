@@ -12,6 +12,7 @@
          
         $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
         $db->registerCustomer($_POST['username'], $_POST['password'],$_POST['address']);
+        $db->closeConnection();
     }
 
 ?>

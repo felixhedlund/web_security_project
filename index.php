@@ -10,7 +10,7 @@
         }else{
             $logged_in = false;
         }
-        
+        $db->closeConnection();
     } 
 ?> 
 <!doctype html>
