@@ -82,7 +82,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Bootstrap Tutorial</title>
+    <title>Web shop</title>
     <meta name="description" content="Bootstrap Tab + Fixed Sidebar Tutorial with HTML5 / CSS3 / JavaScript">
     <meta name="author" content="Untame.net">
 
@@ -90,7 +90,7 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style type="text/css">
-        body { background: url(assets/bglight.png); }
+        body { background: url(assets/images/background.png); }
         .hero-unit { background-color: #fff; }
         .center { display: block; margin: 0 auto; }
     </style>
@@ -120,7 +120,7 @@
 </nav>
 
 
-<div class="container hero-unit">
+<div class="container">
     <h1>Register</h1> <br /><br />
     <form action="register.php" method="post"> 
         <label>Username:</label> 

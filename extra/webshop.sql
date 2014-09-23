@@ -36,6 +36,6 @@ CREATE TABLE reviews (
   CONSTRAINT review_pkey PRIMARY KEY (customer_id, product_id));
 
 ##### TEST DATA #####
-INSERT INTO customers VALUES (NULL, 'johndoe', 'johndoe123', 'John Doe Street', 'Salt123');
+INSERT INTO customers VALUES (NULL, 'johndoe', 'johndoe123', 'Salt123','John Doe Street');
 INSERT INTO products VALUES (NULL, 'Sphynx', '', 1500);
 
