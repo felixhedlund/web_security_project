@@ -82,6 +82,9 @@
     </div>
 
       <ul class="nav navbar-nav navbar-right">
+        <li><button type="button" class="btn btn-default btn-lg">
+  <span class="glyphicon glyphicon-shopping-cart"></span>
+</button></li>
         <li><a href="register.php">Register</a></li>
         <li class="divider-vertical"></li>
           <li class="dropdown">
@@ -110,7 +113,7 @@
                 <img src="assets/images/cat01.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
             <div class="col-md-6">
                 <label> Cat nr 1</label> 
-                <button type="button" class="btn btn-success">Buy</button>
+                <button type="button" class="btn btn-success">Add to cart</button>
             </div>
         </div>
     </div>
@@ -120,7 +123,7 @@
         </div>
         <div class="col-md-6">
                 <label> Cat nr 2</label> 
-                <button type="button" class="btn btn-success">Buy</button>
+                <button type="button" class="btn btn-success">Add to cart</button>
             </div>
     </div>
 </div>
