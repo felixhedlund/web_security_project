@@ -8,7 +8,9 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE customers (
   id           bigint AUTO_INCREMENT PRIMARY KEY,
-  full_name    text NOT NULL,
+  username    text NOT NULL,
+  password char(64) NOT NULL,
+  salt char(16)  NOT NULL,
   address      text NOT NULL);
 
 CREATE TABLE orders (
@@ -34,6 +36,6 @@ CREATE TABLE reviews (
   CONSTRAINT review_pkey PRIMARY KEY (customer_id, product_id));
 
 ##### TEST DATA #####
-INSERT INTO customers VALUES (NULL, 'John Doe', '1 Infinite Loop');
+INSERT INTO customers VALUES (NULL, 'johndoe', 'johndoe123', 'John Doe Street', 'Salt123');
 INSERT INTO products VALUES (NULL, 'Sphynx', '', 1500);
 

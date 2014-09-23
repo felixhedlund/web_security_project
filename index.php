@@ -8,8 +8,8 @@
                 username, 
                 password, 
                 salt, 
-                email 
-            FROM users 
+                address 
+            FROM customers 
             WHERE 
                 username = :username 
         "; 
@@ -37,7 +37,7 @@
         if($login_ok){ 
             unset($row['salt']); 
             unset($row['password']); 
-            $_SESSION['user'] = $row;  
+            $_SESSION['customer'] = $row;  
             header("Location: secret.php"); 
             die("Redirecting to: secret.php"); 
         } 

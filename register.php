@@ -7,14 +7,14 @@
         { die("Please enter a username."); } 
         if(empty($_POST['password'])) 
         { die("Please enter a password."); } 
-        if(!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) 
-        { die("Invalid E-Mail Address"); } 
+        if(empty($_POST['address'])) 
+        { die("Please enter Address"); } 
          
         // Check if the username is already taken
         $query = " 
             SELECT 
                 1 
-            FROM users 
+            FROM customers 
             WHERE 
                 username = :username 
         "; 
@@ -29,12 +29,12 @@
         $query = " 
             SELECT 
                 1 
-            FROM users 
+            FROM customers 
             WHERE 
-                email = :email 
+                address = :address 
         "; 
         $query_params = array( 
-            ':email' => $_POST['email'] 
+            ':address' => $_POST['address'] 
         ); 
         try { 
             $stmt = $db->prepare($query); 
@@ -42,20 +42,20 @@
         } 
         catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage());} 
         $row = $stmt->fetch(); 
-        if($row){ die("This email address is already registered"); } 
+        if($row){ die("This address is already registered"); } 
          
         // Add row to database 
         $query = " 
-            INSERT INTO users ( 
+            INSERT INTO customers ( 
                 username, 
                 password, 
                 salt, 
-                email 
+                address 
             ) VALUES ( 
                 :username, 
                 :password, 
                 :salt, 
-                :email 
+                :address 
             ) 
         "; 
          
@@ -67,7 +67,7 @@
             ':username' => $_POST['username'], 
             ':password' => $password, 
             ':salt' => $salt, 
-            ':email' => $_POST['email'] 
+            ':address' => $_POST['address'] 
         ); 
         try {  
             $stmt = $db->prepare($query); 
@@ -125,8 +125,8 @@
     <form action="register.php" method="post"> 
         <label>Username:</label> 
         <input type="text" name="username" value="" /> 
-        <label>Email: <strong style="color:darkred;">*</strong></label> 
-        <input type="text" name="email" value="" /> 
+        <label>Address: <strong style="color:darkred;">*</strong></label> 
+        <input type="text" name="address" value="" /> 
         <label>Password:</label> 
         <input type="password" name="password" value="" /> <br /><br />
         <input type="submit" class="btn btn-info" value="Register" /> 
