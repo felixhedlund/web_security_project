@@ -98,5 +98,133 @@ class Database {
    * TODO: Define SQL queries.
    *
    */
+
+
+public function loginCustomer($username, $password){
+	if(!$this->isConnected()){
+		$this->openConnection();
+	}
+	$query = " 
+            SELECT 
+                id, 
+                username, 
+                password, 
+                salt, 
+                address 
+            FROM customers 
+            WHERE 
+                username = :username 
+        "; 
+        $query_params = array( 
+            ':username' => $username 
+        ); 
+         
+        try{ 
+            $stmt = $this->conn->prepare($query); 
+            $result = $stmt->execute($query_params); 
+        } 
+        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage()); } 
+        $login_ok = false; 
+        $row = $stmt->fetch(); 
+        if($row){ 
+            $check_password = hash('sha256', $_POST['password'] . $row['salt']); 
+            for($round = 0; $round < 65536; $round++){
+                $check_password = hash('sha256', $check_password . $row['salt']);
+            } 
+            if($check_password === $row['password']){
+                $login_ok = true;
+            } 
+        } 
+
+        if($login_ok){ 
+            unset($row['salt']); 
+            unset($row['password']); 
+            $_SESSION['customer'] = $row;
+            return true;
+            //header("Location: secret.php"); 
+            //die("Redirecting to: secret.php"); 
+        } 
+        else{ 
+            print("Login Failed."); 
+            $submitted_username = htmlentities($_POST['username'], ENT_QUOTES, 'UTF-8');
+            return false;
+        } 
 }
+
+public function registerCustomer($username, $password, $address){
+	if(!$this->isConnected()){
+		$this->openConnection();
+	}
+
+	// Check if the username is already taken
+        $query = " 
+            SELECT 
+                1 
+            FROM customers 
+            WHERE 
+                username = :username 
+        "; 
+        $query_params = array( ':username' => $username ); 
+        try { 
+            $stmt = $this->conn->prepare($query); 
+            $result = $stmt->execute($query_params); 
+        } 
+        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage()); } 
+        $row = $stmt->fetch(); 
+        if($row){ die("This username is already in use"); } 
+        $query = " 
+            SELECT 
+                1 
+            FROM customers 
+            WHERE 
+                address = :address 
+        "; 
+        $query_params = array( 
+            ':address' => $address 
+        ); 
+        try { 
+            $stmt = $this->conn->prepare($query); 
+            $result = $stmt->execute($query_params); 
+        } 
+        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage());} 
+        $row = $stmt->fetch(); 
+        if($row){ die("This address is already registered"); } 
+         
+        // Add row to database 
+        $query = " 
+            INSERT INTO customers ( 
+                username, 
+                password, 
+                salt, 
+                address 
+            ) VALUES ( 
+                :username, 
+                :password, 
+                :salt, 
+                :address 
+            ) 
+        "; 
+         
+        // Security measures
+        $salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
+        $salted_password = hash('sha256', $password . $salt); 
+        for($round = 0; $round < 65536; $round++){ $salted_password = hash('sha256', $salted_password . $salt); } 
+        $query_params = array( 
+            ':username' => $username, 
+            ':password' => $salted_password, 
+            ':salt' => $salt, 
+            ':address' => $address
+        ); 
+        try {  
+            $stmt = $this->conn->prepare($query); 
+            $result = $stmt->execute($query_params); 
+        } 
+        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage()); } 
+        header("Location: index.php"); 
+        die("Redirecting to index.php"); 
+    } 
+
+
+}
+
 ?>

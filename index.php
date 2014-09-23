@@ -1,50 +1,16 @@
 <?php 
-    require("config.php"); 
+    require("config.php");
     $submitted_username = ''; 
+    $logged_in = false;
     if(!empty($_POST)){ 
-        $query = " 
-            SELECT 
-                id, 
-                username, 
-                password, 
-                salt, 
-                address 
-            FROM customers 
-            WHERE 
-                username = :username 
-        "; 
-        $query_params = array( 
-            ':username' => $_POST['username'] 
-        ); 
-         
-        try{ 
-            $stmt = $db->prepare($query); 
-            $result = $stmt->execute($query_params); 
-        } 
-        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage()); } 
-        $login_ok = false; 
-        $row = $stmt->fetch(); 
-        if($row){ 
-            $check_password = hash('sha256', $_POST['password'] . $row['salt']); 
-            for($round = 0; $round < 65536; $round++){
-                $check_password = hash('sha256', $check_password . $row['salt']);
-            } 
-            if($check_password === $row['password']){
-                $login_ok = true;
-            } 
-        } 
-
-        if($login_ok){ 
-            unset($row['salt']); 
-            unset($row['password']); 
-            $_SESSION['customer'] = $row;  
-            header("Location: secret.php"); 
-            die("Redirecting to: secret.php"); 
-        } 
-        else{ 
-            print("Login Failed."); 
-            $submitted_username = htmlentities($_POST['username'], ENT_QUOTES, 'UTF-8'); 
-        } 
+        $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
+        $db->openConnection();
+        if($db->loginCustomer($_POST['username'], $_POST['password'])){
+            $logged_in = true;
+        }else{
+            $logged_in = false;
+        }
+        
     } 
 ?> 
 <!doctype html>
@@ -87,6 +53,7 @@
 </button></li>
         <li><a href="register.php">Register</a></li>
         <li class="divider-vertical"></li>
+        <?php  if(!$logged_in){  ?>
           <li class="dropdown">
             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Login <strong class="caret"></strong></a>
             <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
@@ -101,13 +68,17 @@
                 </form> 
             </div>
           </li>
+          <?php }else{ ?>
+            
+            <li><a href="logout.php">Log Out</a></li>
+            <?php } ?>
       </ul>
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
 
 <div class="container" >
-    <div class "row" >
+    
         <div class "row">
             <div class="col-md-6">
                 <img src="assets/images/cat01.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
@@ -116,16 +87,17 @@
                 <button type="button" class="btn btn-success">Add to cart</button>
             </div>
         </div>
-    </div>
-    <div class "row" >
-        <div class="col-md-6">
-            <img src="assets/images/cat02.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
-        </div>
-        <div class="col-md-6">
-                <label> Cat nr 2</label> 
-                <button type="button" class="btn btn-success">Add to cart</button>
+    
+        <div class "row" >
+            <div class="col-md-6">
+                <img src="assets/images/cat02.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
             </div>
-    </div>
+            <div class="col-md-6">
+                    <label> Cat nr 2</label> 
+                    <button type="button" class="btn btn-success">Add to cart</button>
+                </div>
+        </div>
+
 </div>
 
 </body>

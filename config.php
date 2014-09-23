@@ -1,16 +1,23 @@
 <?php 
-
+    require_once('database.inc.php');
     // These variables define the connection information for your MySQL database 
     $username = "admin"; 
     $password = "admin123"; 
     $host = "localhost"; 
-    $dbname = "web_security_database"; 
+    $dbname = "web_security_database";
+
     
-    $options = array(PDO::MYSQL_ATTR_INIT_COMMAND => 'SET NAMES utf8'); 
-    try { $db = new PDO("mysql:host={$host};dbname={$dbname};charset=utf8", $username, $password, $options); } 
-    catch(PDOException $ex){ die("Failed to connect to the database: " . $ex->getMessage());} 
-    $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION); 
-    $db->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC); 
-    header('Content-Type: text/html; charset=utf-8'); 
-    session_start(); 
+    $db = new Database($host, $username, $password, $dbname);
+    $db->openConnection();
+    if (!$db->isConnected()) {
+        header("Location: cannotConnect.html");
+        exit();
+    }
+    $db->closeConnection();
+    
+    session_start();
+    $_SESSION['db_username'] = $username;
+    $_SESSION['db_password'] = $password;
+    $_SESSION['db_host'] = $host;
+    $_SESSION['db_dbname'] = $dbname;
 ?>

@@ -10,73 +10,10 @@
         if(empty($_POST['address'])) 
         { die("Please enter Address"); } 
          
-        // Check if the username is already taken
-        $query = " 
-            SELECT 
-                1 
-            FROM customers 
-            WHERE 
-                username = :username 
-        "; 
-        $query_params = array( ':username' => $_POST['username'] ); 
-        try { 
-            $stmt = $db->prepare($query); 
-            $result = $stmt->execute($query_params); 
-        } 
-        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage()); } 
-        $row = $stmt->fetch(); 
-        if($row){ die("This username is already in use"); } 
-        $query = " 
-            SELECT 
-                1 
-            FROM customers 
-            WHERE 
-                address = :address 
-        "; 
-        $query_params = array( 
-            ':address' => $_POST['address'] 
-        ); 
-        try { 
-            $stmt = $db->prepare($query); 
-            $result = $stmt->execute($query_params); 
-        } 
-        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage());} 
-        $row = $stmt->fetch(); 
-        if($row){ die("This address is already registered"); } 
-         
-        // Add row to database 
-        $query = " 
-            INSERT INTO customers ( 
-                username, 
-                password, 
-                salt, 
-                address 
-            ) VALUES ( 
-                :username, 
-                :password, 
-                :salt, 
-                :address 
-            ) 
-        "; 
-         
-        // Security measures
-        $salt = dechex(mt_rand(0, 2147483647)) . dechex(mt_rand(0, 2147483647)); 
-        $password = hash('sha256', $_POST['password'] . $salt); 
-        for($round = 0; $round < 65536; $round++){ $password = hash('sha256', $password . $salt); } 
-        $query_params = array( 
-            ':username' => $_POST['username'], 
-            ':password' => $password, 
-            ':salt' => $salt, 
-            ':address' => $_POST['address'] 
-        ); 
-        try {  
-            $stmt = $db->prepare($query); 
-            $result = $stmt->execute($query_params); 
-        } 
-        catch(PDOException $ex){ die("Failed to run query: " . $ex->getMessage()); } 
-        header("Location: index.php"); 
-        die("Redirecting to index.php"); 
-    } 
+        $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
+        $db->registerCustomer($_POST['username'], $_POST['password'],$_POST['address']);
+    }
+
 ?>
 <!doctype html>
 <html lang="en">
