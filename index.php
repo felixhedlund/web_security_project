@@ -59,7 +59,7 @@
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style type="text/css">
-        body { background: url(assets/images/bglight.png); }
+        body { background: url(assets/images/background.png); }
         .hero-unit { background-color: #fff; }
         .center { display: block; margin: 0 auto; }
     </style>
