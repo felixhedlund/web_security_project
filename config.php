@@ -1,12 +1,17 @@
-<?php 
+<?php
     require_once('database.inc.php');
-    // These variables define the connection information for your MySQL database 
-    $username = "admin"; 
-    $password = "admin123"; 
-    $host = "localhost"; 
-    $dbname = "web_security_database";
+    // These variables define the connection information for your MySQL database
+    // $username = "admin";
+    // $password = "admin123";
+    // $host = "localhost";
+    // $dbname = "web_security_database";
 
-    
+    $username = "root";
+    $password = "root";
+    $host = "localhost";
+    $dbname = "webshop";
+
+
     $db = new Database($host, $username, $password, $dbname);
     $db->openConnection();
     if (!$db->isConnected()) {
@@ -14,7 +19,7 @@
         exit();
     }
     $db->closeConnection();
-    
+
     session_start();
     $_SESSION['db_username'] = $username;
     $_SESSION['db_password'] = $password;

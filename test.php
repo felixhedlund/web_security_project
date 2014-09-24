@@ -69,7 +69,7 @@
                 print "</div>"; // End of column
                 if ($index++ == 3) {
                     print "</div>"; // End of row
-                    break;
+                    $index = 1;
                 }
             }
         ?>

@@ -8,9 +8,9 @@ SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE customers (
   id           bigint AUTO_INCREMENT PRIMARY KEY,
-  username    text NOT NULL,
-  password char(64) NOT NULL,
-  salt char(16)  NOT NULL,
+  username     text NOT NULL,
+  password     char(64) NOT NULL,
+  salt         char(16) NOT NULL,
   address      text NOT NULL);
 
 CREATE TABLE orders (
@@ -37,5 +37,6 @@ CREATE TABLE reviews (
 
 ##### TEST DATA #####
 INSERT INTO customers VALUES (NULL, 'johndoe', 'johndoe123', 'Salt123','John Doe Street');
-INSERT INTO products VALUES (NULL, 'Sphynx', '', 1500);
+INSERT INTO products VALUES (NULL, 'Sphynx', 'assets/images/cat01.jpg', 1500);
+INSERT INTO products VALUES (NULL, 'Sphynx #2', 'assets/images/cat02.jpg', 2000);
 
