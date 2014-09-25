@@ -8,6 +8,14 @@
     if(!empty($_SESSION['customer'])){
         $logged_in = true;
     }
+    $result = $db->getProducts();
+    if(empty($_SESSION['cart'])){
+        $_SESSION['cart'] = array();
+        foreach ($result as $row){
+            $_SESSION['cart'][$row['id']] = 0;
+        }
+    }
+
     $db->closeConnection();
 ?> 
 <!doctype html>
@@ -25,6 +33,35 @@
         body { background: url(assets/images/background.png); }
         .hero-unit { background-color: #fff; }
         .center { display: block; margin: 0 auto; }
+    </style>
+    <style type="text/css">
+        h3 { margin-top: 10px; }
+        .product-thumbnail { position: relative; width: 410px; }
+        .product-caption {
+            background: none repeat scroll 0 0 #FFFFFF;
+            opacity: 0.7;
+            top: 0;
+            left: 0;
+            width: 100%;
+            position: absolute;
+            padding-left: 20px;
+            padding-bottom: 5px;
+        }
+        .product-price {
+            background: none repeat scroll 0 0 #FFFFFF;
+            opacity: 0.7;
+            width: 100%;
+            position: absolute;
+            margin-top: -50px;
+            padding-left: 20px;
+        }
+        .product-buy {
+            position: absolute;
+            width: 100%;
+            text-align: right;
+            margin-top: -44px;
+            padding-right: 10px;
+        }
     </style>
 </head>
 
@@ -70,5 +107,47 @@
     </div><!-- /.navbar-collapse -->
   </div><!-- /.container-fluid -->
 </nav>
+
+
+<div class="container">
+        <h1>Shopping cart</h1>
+        <?php
+            
+            $index = 1;
+            foreach ($result as $row){
+                if ($index == 1) {
+                    print "<div class='row'>";
+                }
+
+                print "<div class='col-md-6'>";
+                print "<div class='product-thumbnail'>";
+                print "<img src='{$row['image']}' class='img-responsive img-thumbnail' alt='Responsive image'>";
+                print "<div class='product-caption'>";
+                print "<h2>{$row['name']}</h2>";
+                print "<h3>Amount in cart: {$_SESSION['cart'][$row['id']]}</h3>";
+                print "</div>";
+                print "<div class='product-price'>";
+                print "<h3>Price: {$row['price']} SEK</h3>";
+                print "</div>";
+                print "<div class='product-buy'>";
+                print "<form action='addProductToCart.php' method='post'> ";
+                print "<input type='hidden' name='product_id' value='{$row['id']}' />";
+                print "<input type='submit' class='btn btn-success' value='Add to cart'/>";
+                //print "<button type='button' class='btn btn-success'>Add to cart</button>";
+                print "</form>";
+
+                print "</div>";
+                print "</div>"; // End of thumbnail
+                print "</div>"; // End of column
+                if ($index++ == 3) {
+                    print "</div>"; // End of row
+                    $index = 1;
+                }
+            }
+        ?>
+    </div>
+
+
+
 </body>
 </html>

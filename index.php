@@ -9,10 +9,13 @@
     if(!empty($_SESSION['customer'])){
         $logged_in = true;
     }
+    $result = $db->getProducts();
     if(empty($_SESSION['cart'])){
         $_SESSION['cart'] = array();
+        foreach ($result as $row){
+            $_SESSION['cart'][$row['id']] = 0;
+        }
     }
-    $result = $db->getProducts();
     $db->closeConnection();
 ?> 
 <!doctype html>
@@ -117,6 +120,7 @@
                 if ($index == 1) {
                     print "<div class='row'>";
                 }
+
                 print "<div class='col-md-6'>";
                 print "<div class='product-thumbnail'>";
                 print "<img src='{$row['image']}' class='img-responsive img-thumbnail' alt='Responsive image'>";
@@ -127,7 +131,12 @@
                 print "<h3>Price: {$row['price']} SEK</h3>";
                 print "</div>";
                 print "<div class='product-buy'>";
-                print "<button type='button' class='btn btn-success'>Add to cart</button>";
+                print "<form action='addProductToCart.php' method='post'> ";
+                print "<input type='hidden' name='product_id' value='{$row['id']}' />";
+                print "<input type='submit' class='btn btn-success' value='Add to cart'/>";
+                //print "<button type='button' class='btn btn-success'>Add to cart</button>";
+                print "</form>";
+
                 print "</div>";
                 print "</div>"; // End of thumbnail
                 print "</div>"; // End of column
