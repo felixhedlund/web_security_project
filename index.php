@@ -12,6 +12,9 @@
         }
         $db->closeConnection();
     } 
+    if(!empty($_SESSION['customer'])){
+        $logged_in = true;
+    }
 ?> 
 <!doctype html>
 <html lang="en">
