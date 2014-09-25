@@ -1,6 +1,6 @@
 <?php 
 	require("config.php");
     unset($_SESSION['customer']);
-    header("Location: index.php"); 
+    header("Location: ".$_SESSION['current_page']); 
     die("Redirecting to: index.php");
 ?>

@@ -1,18 +1,11 @@
 <?php 
     require("config.php");
+    $_SESSION['current_page'] = "index.php";
     $submitted_username = ''; 
     $logged_in = false;
     $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
     $db->openConnection();
-    if(!empty($_POST)){ 
-        
-        if($db->loginCustomer($_POST['username'], $_POST['password'])){
-            $logged_in = true;
-        }else{
-            $logged_in = false;
-        }
-        
-    } 
+    
     if(!empty($_SESSION['customer'])){
         $logged_in = true;
     }
@@ -83,7 +76,7 @@
     </div>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><button type="button" class="btn btn-default btn-lg">
+        <li><button onclick="location.href = 'shoppingcart.php';" type="button" class="btn btn-default btn-lg">
   <span class="glyphicon glyphicon-shopping-cart"></span>
 </button></li>
         <li><a href="register.php">Register</a></li>
@@ -92,7 +85,7 @@
           <li class="dropdown">
             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Login <strong class="caret"></strong></a>
             <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-                <form action="index.php" method="post"> 
+                <form action="login.php" method="post"> 
                     Username:<br /> 
                     <input type="text" name="username" value="<?php echo $submitted_username; ?>" /> 
                     <br /><br /> 
