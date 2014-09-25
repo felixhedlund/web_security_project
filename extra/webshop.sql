@@ -27,6 +27,7 @@ CREATE TABLE products (
 CREATE TABLE order_products (
   order_id      bigint NOT NULL REFERENCES orders(id),
   product_id    bigint NOT NULL REFERENCES products(id),
+  amount        bigint,
   CONSTRAINT order_product_pkey PRIMARY KEY (order_id, product_id));
 
 CREATE TABLE reviews (

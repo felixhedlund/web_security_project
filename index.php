@@ -9,6 +9,9 @@
     if(!empty($_SESSION['customer'])){
         $logged_in = true;
     }
+    if(empty($_SESSION['cart'])){
+        $_SESSION['cart'] = array();
+    }
     $result = $db->getProducts();
     $db->closeConnection();
 ?> 
@@ -124,7 +127,7 @@
                 print "<h3>Price: {$row['price']} SEK</h3>";
                 print "</div>";
                 print "<div class='product-buy'>";
-                print "<button type='button' class='btn btn-success'>Add to cart</button>";
+                print "<input type='button' class='btn btn-success'>Add to cart</input>";
                 print "</div>";
                 print "</div>"; // End of thumbnail
                 print "</div>"; // End of column
