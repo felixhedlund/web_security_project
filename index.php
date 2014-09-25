@@ -2,19 +2,22 @@
     require("config.php");
     $submitted_username = ''; 
     $logged_in = false;
+    $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
+    $db->openConnection();
     if(!empty($_POST)){ 
-        $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
-        $db->openConnection();
+        
         if($db->loginCustomer($_POST['username'], $_POST['password'])){
             $logged_in = true;
         }else{
             $logged_in = false;
         }
-        $db->closeConnection();
+        
     } 
     if(!empty($_SESSION['customer'])){
         $logged_in = true;
     }
+    $result = $db->getProducts();
+    $db->closeConnection();
 ?> 
 <!doctype html>
 <html lang="en">
@@ -31,6 +34,35 @@
         body { background: url(assets/images/background.png); }
         .hero-unit { background-color: #fff; }
         .center { display: block; margin: 0 auto; }
+    </style>
+    <style type="text/css">
+        h3 { margin-top: 10px; }
+        .product-thumbnail { position: relative; width: 410px; }
+        .product-caption {
+            background: none repeat scroll 0 0 #FFFFFF;
+            opacity: 0.7;
+            top: 0;
+            left: 0;
+            width: 100%;
+            position: absolute;
+            padding-left: 20px;
+            padding-bottom: 5px;
+        }
+        .product-price {
+            background: none repeat scroll 0 0 #FFFFFF;
+            opacity: 0.7;
+            width: 100%;
+            position: absolute;
+            margin-top: -50px;
+            padding-left: 20px;
+        }
+        .product-buy {
+            position: absolute;
+            width: 100%;
+            text-align: right;
+            margin-top: -44px;
+            padding-right: 10px;
+        }
     </style>
 </head>
 
@@ -80,28 +112,36 @@
   </div><!-- /.container-fluid -->
 </nav>
 
-<div class="container" >
-    
-        <div class "row">
-            <div class="col-md-6">
-                <img src="assets/images/cat01.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
-            <div class="col-md-6">
-                <label> Cat nr 1</label> 
-                <button type="button" class="btn btn-success">Add to cart</button>
-            </div>
-        </div>
-    
-        <div class "row" >
-            <div class="col-md-6">
-                <img src="assets/images/cat02.jpg" class="img-responsive img-thumbnail" alt="Responsive image">
-            </div>
-            <div class="col-md-6">
-                    <label> Cat nr 2</label> 
-                    <button type="button" class="btn btn-success">Add to cart</button>
-                </div>
-        </div>
-
-</div>
+<div class="container">
+        <h1>All cats for sale:</h1>
+        <?php
+            
+            $index = 1;
+            foreach ($result as $row){
+                if ($index == 1) {
+                    print "<div class='row'>";
+                }
+                print "<div class='col-md-6'>";
+                print "<div class='product-thumbnail'>";
+                print "<img src='{$row['image']}' class='img-responsive img-thumbnail' alt='Responsive image'>";
+                print "<div class='product-caption'>";
+                print "<h2>{$row['name']}</h2>";
+                print "</div>";
+                print "<div class='product-price'>";
+                print "<h3>Price: {$row['price']} SEK</h3>";
+                print "</div>";
+                print "<div class='product-buy'>";
+                print "<button type='button' class='btn btn-success'>Add to cart</button>";
+                print "</div>";
+                print "</div>"; // End of thumbnail
+                print "</div>"; // End of column
+                if ($index++ == 3) {
+                    print "</div>"; // End of row
+                    $index = 1;
+                }
+            }
+        ?>
+    </div>
 
 </body>
 </html>
