@@ -5,7 +5,6 @@
     $logged_in = false;
     $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
     $db->openConnection();
-    
     if(!empty($_SESSION['customer'])){
         $logged_in = true;
     }
@@ -16,6 +15,7 @@
             $_SESSION['cart'][$row['id']] = 0;
         }
     }
+
     $db->closeConnection();
 ?> 
 <!doctype html>
@@ -62,6 +62,13 @@
             margin-top: -44px;
             padding-right: 10px;
         }
+        .product-sell {
+            position: absolute;
+            width: 100%;
+            text-align: right;
+            margin-top: -40px;
+            padding-right: 30px;
+        }
     </style>
 </head>
 
@@ -78,13 +85,10 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="#">Web shop</a>
+      <a class="navbar-brand" href="index.php">Web shop</a>
     </div>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><button onclick="location.href = 'shoppingcart.php';" type="button" class="btn btn-default btn-lg">
-  <span class="glyphicon glyphicon-shopping-cart"></span>
-</button></li>
         <li><a href="register.php">Register</a></li>
         <li class="divider-vertical"></li>
         <?php  if(!$logged_in){  ?>
@@ -111,12 +115,27 @@
   </div><!-- /.container-fluid -->
 </nav>
 
+
 <div class="container">
-        <h1>All cats for sale:</h1>
+        <h1>Shopping cart
         <?php
             
             $index = 1;
+            $show_checkout = false;
             foreach ($result as $row){
+                if($_SESSION['cart'][$row['id']] > 0){ $show_checkout = true; } 
+                
+            }
+            if($show_checkout){?> 
+
+                <a class="btn btn-info" href="checkout.php">Proceed to checkout</a><?php } ?>
+                </h1><?php if(!$logged_in && $show_checkout){
+                    print "<p>You must login to proceed to checkout!";
+                } ?> <?php
+
+            foreach ($result as $row){
+                
+
                 if ($index == 1) {
                     print "<div class='row'>";
                 }
@@ -126,18 +145,35 @@
                 print "<img src='{$row['image']}' class='img-responsive img-thumbnail' alt='Responsive image'>";
                 print "<div class='product-caption'>";
                 print "<h2>{$row['name']}</h2>";
+                if($_SESSION['cart'][$row['id']] > 0){
+                print "<h3>Amount in cart: {$_SESSION['cart'][$row['id']]}</h3>";
+                
+                    print "<div class='product-sell'>";
+                    print "<form action='removeProductFromCart.php' method='post'> ";
+                    print "<input type='hidden' name='product_id' value='{$row['id']}' />";
+                    print "<input type='submit' class='btn btn-danger' value='Remove from cart'/>";
+                    print "</form>";  
+                    print "</div>";
+                }
                 print "</div>";
+                
                 print "<div class='product-price'>";
                 print "<h3>Price: {$row['price']} SEK</h3>";
                 print "</div>";
+
+
                 print "<div class='product-buy'>";
+                
                 print "<form action='addProductToCart.php' method='post'> ";
                 print "<input type='hidden' name='product_id' value='{$row['id']}' />";
                 print "<input type='submit' class='btn btn-success' value='Add to cart'/>";
                 //print "<button type='button' class='btn btn-success'>Add to cart</button>";
                 print "</form>";
 
+                
+                
                 print "</div>";
+
                 print "</div>"; // End of thumbnail
                 print "</div>"; // End of column
                 if ($index++ == 3) {
@@ -147,6 +183,8 @@
             }
         ?>
     </div>
+
+
 
 </body>
 </html>

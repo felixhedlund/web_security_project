@@ -109,6 +109,14 @@ class Database {
     $result = $this->executeQuery("SELECT id, name, image, price FROM products");
     return $result;
   }
+  public function getNameOfProduct($id){
+    $result = $this->executeQuery("SELECT name FROM products WHERE id = ".$id);
+    return $result[0][0];
+  }
+  public function getPriceOfProduct($id){
+    $result = $this->executeQuery("SELECT price FROM products WHERE id = ".$id);
+    return $result[0][0];
+  }
 
 
 public function loginCustomer($username, $password){
