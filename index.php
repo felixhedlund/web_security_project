@@ -89,7 +89,14 @@
     </div>
 
       <ul class="nav navbar-nav navbar-right">
+        <?php if($logged_in){
+            ?>
+        <li><?php print("<a>".$_SESSION['customer']."</a>"); ?></li>
+        <?php }else{ ?>
+
+
         <li><a href="register.php">Register</a></li>
+        <?php } ?>
         <li class="divider-vertical"></li>
         <?php  if(!$logged_in){  ?>
           <li class="dropdown">
