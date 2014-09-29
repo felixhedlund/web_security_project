@@ -66,7 +66,7 @@ class Database {
 	private function executeQuery($query, $param = null) {
 		try {
 			$stmt = $this->conn->prepare($query);
-			$stmt->execute($param);
+			$stmt->execute($param); 
 			$result = $stmt->fetchAll();
 		} catch (PDOException $e) {
 			$error = "*** Internal error: " . $e->getMessage() . "<p>" . $query;
@@ -158,7 +158,7 @@ public function loginCustomer($username, $password){
         if($login_ok){
             unset($row['salt']);
             unset($row['password']);
-            $_SESSION['customer'] = $row;
+            $_SESSION['customer'] = $row['username'];
             return true;
             //header("Location: secret.php");
             //die("Redirecting to: secret.php");

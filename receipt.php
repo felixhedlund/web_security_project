@@ -89,6 +89,14 @@
     </div>
 
       <ul class="nav navbar-nav navbar-right">
+        <?php if($logged_in){
+            ?>
+        <li><?php print("<a>".$_SESSION['customer']."</a>"); ?></li>
+        <?php }else{ ?>
+
+
+        <li><a href="register.php">Register</a></li>
+        <?php } ?>
         <?php  if($logged_in){  ?>
             <li><a href="logout.php">Log Out</a></li>
             <?php } ?>
