@@ -40,4 +40,3 @@ CREATE TABLE reviews (
 INSERT INTO customers VALUES (NULL, 'johndoe', 'johndoe123', 'Salt123','John Doe Street');
 INSERT INTO products VALUES (NULL, 'Sphynx', 'assets/images/cat01.jpg', 1500);
 INSERT INTO products VALUES (NULL, 'Sphynx #2', 'assets/images/cat02.jpg', 2000);
-INSERT INTO products VALUES (NULL, 'cat03', 'assets/images/cat03.jpg', 1700);
