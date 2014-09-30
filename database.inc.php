@@ -106,7 +106,7 @@ class Database {
   }
 
   public function getProductReviews($id) {
-    $result = $this->executeQuery("SELECT username, message FROM customers INNER JOIN reviews ON id WHERE product_id = ?", array($id));
+    $result = $this->executeQuery("SELECT username, message FROM reviews INNER JOIN customers ON customer_id = id WHERE product_id = ?", array($id));
     return $result;
   }
 
