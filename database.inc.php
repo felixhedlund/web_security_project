@@ -66,7 +66,7 @@ class Database {
 	private function executeQuery($query, $param = null) {
 		try {
 			$stmt = $this->conn->prepare($query);
-			$stmt->execute($param); 
+			$stmt->execute($param);
 			$result = $stmt->fetchAll();
 		} catch (PDOException $e) {
 			$error = "*** Internal error: " . $e->getMessage() . "<p>" . $query;
@@ -100,8 +100,24 @@ class Database {
    */
 
 
+  public function getProductWithId($id) {
+    $result = $this->executeQuery("SELECT id, name, image, price FROM products WHERE id = ?", array($id));
+    return $result;
+  }
+
+  public function getProductReviews($id) {
+    $result = $this->executeQuery("SELECT username, message FROM customers INNER JOIN reviews ON id WHERE product_id = ?", array($id));
+    return $result;
+  }
+
+  public function addReview($message, $username, $productId) {
+    $customer = $this->executeQuery("SELECT id FROM customers WHERE username = ?", array($username));
+    $this->executeUpdate("INSERT INTO reviews VALUES (?, ?, ?)", array($message, $customer[0]['id'], $productId));
+  }
+
+
   /**
-   * Retrieves all products from teh database
+   * Retrieves all products from the database
    *
    * @return The products
    */
