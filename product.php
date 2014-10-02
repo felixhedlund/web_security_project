@@ -8,9 +8,16 @@
     if(!empty($_SESSION['customer'])){
         $logged_in = true;
     }
-    // Get product
-    $product = $db->getProductWithId($_POST['product_id']); // Gets a specific product with an id
-    $reviews = $db->getProductReviews($_POST['product_id']); // Gets all reviews for the product and their posters name
+
+    if (!empty($_SESSION['product_id'])) {
+        $product = $db->getProductWithId($_SESSION['product_id']);
+        $reviews = $db->getProductReviews($_SESSION['product_id']);
+    } else {
+        $product = $db->getProductWithId($_POST['product_id']);
+        $reviews = $db->getProductReviews($_POST['product_id']);
+    }
+
+    $_SESSION['product_id'] = $_POST['product_id']; // Store product id in session
 
     $db->closeConnection();
 ?>
