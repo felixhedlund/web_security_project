@@ -32,6 +32,12 @@
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
+
+    <style type="text/css">
+        body {
+            background: url(assets/images/background.png);
+        }
+    </style>
 </head>
 
 <body>
