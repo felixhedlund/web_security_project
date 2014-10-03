@@ -18,7 +18,7 @@ Skapa backups och kopiera följande filer :
 # 2: Konfigurera MAMP
 ==================================================
 
-Öppna 'MAMP/conf/apache/extra/httpd-ssl.conf' och ta bort kommentaren
+Öppna 'MAMP/conf/apache/httpd.conf' och ta bort kommentaren
 på följande rad:
 
     (528) Include /Applications/MAMP/conf/apache/extra/httpd-ssl.conf
