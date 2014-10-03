@@ -11,7 +11,7 @@ Skapa backups och kopiera följande filer :
 
     httpd-ssl.conf  ->  MAMP/conf/apache/extra/httpd-ssl.conf
     server.crt      ->  MAMP/conf/apache/server.crt
-    server.csr      ->  MAMP/conf/apache/server.csr
+    server.key      ->  MAMP/conf/apache/server.key
 
 
 ==================================================
@@ -27,7 +27,7 @@ Starta MAMP och ändra apache-porten från 8888 (default) till 80.
 
 
 ==================================================
-# 3: Anslut via SSL
+# 3: Anslut via SSL:
 ==================================================
 
 Lägg till 'https://' innan 'localhost' i URL:en och acceptera certifikatet
