@@ -1,5 +1,10 @@
 <?php 
     require("config.php");
+    if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on")
+    {
+    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+    exit();
+    }
     if(!empty($_POST)) 
     { 
         // Ensure that the user fills out fields 
@@ -24,7 +29,7 @@
     <meta name="description" content="Bootstrap Tab + Fixed Sidebar Tutorial with HTML5 / CSS3 / JavaScript">
     <meta name="author" content="Untame.net">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style type="text/css">

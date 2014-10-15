@@ -1,5 +1,10 @@
 <?php 
     require("config.php");
+    if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on")
+    {
+    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+    exit();
+    }
     $submitted_username = ''; 
     $logged_in = false;
     $db = new Database($_SESSION['db_host'], $_SESSION['db_username'], $_SESSION['db_password'], $_SESSION['db_dbname']);
@@ -26,7 +31,7 @@
     <meta name="description" content="A web shop for the course Web security [EITF05]">
     <meta name="author" content="Group 13">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style type="text/css">

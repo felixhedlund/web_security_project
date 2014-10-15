@@ -6,6 +6,8 @@ class Database {
 	private $password;
 	private $database;
 	private $conn;
+    private $table_attempts;
+    private $attempts_number;
 
 	/**
 	 * Constructs a database object for the specified user.
@@ -15,6 +17,8 @@ class Database {
 		$this->userName = $userName;
 		$this->password = $password;
 		$this->database = $database;
+        $this->table_attempts = "login_attempts";
+        $this->attempts_number = 0;
 	}
 
 	/**
@@ -150,7 +154,7 @@ class Database {
             $_SESSION['customer'] = $row['username'];
             return true;
         } else {
-            print("Login Failed.");
+            //print("Login Failed.");
             $submitted_username = htmlentities($_POST['username'], ENT_QUOTES, 'UTF-8');
             return false;
         }
@@ -213,6 +217,73 @@ class Database {
         header("Location: index.php");
         die("Redirecting to index.php");
     }
+
+
+function confirmIPAddress($value) { 
+
+  $q = "SELECT Attempts, (CASE when lastlogin is not NULL and DATE_ADD(LastLogin, INTERVAL "."5 MINUTE".
+  ")>NOW() then 1 else 0 end) as Denied FROM login_attempts WHERE ip = ?"; 
+
+  $result = $this->executeQuery($q, array($value));
+   $data = $result[0];
+
+  //Verify that at least one login attempt is in database 
+
+  if (!$data) { 
+    return 0; 
+  } 
+  if ($data["Attempts"] >= 3) 
+  { 
+    if($data["Denied"] == 1) 
+    { 
+      return 1; 
+    } 
+    else 
+    { 
+      $this->clearLoginAttempts($value); 
+      return 0; 
+    } 
+  } 
+  return 0; 
+} 
+
+function addLoginAttempt($value) {
+
+   //Increase number of attempts. Set last login attempt if required.
+
+   $q = "SELECT * FROM login_attempts WHERE ip = ?"; 
+
+   $result = $this->executeQuery($q, array($value));
+   if ($result){
+    $data = $result[0];
+    }else{
+        $data = array();
+    }
+   
+   if($data)
+   {
+     $attempts = $data["Attempts"]+1;         
+
+     if($attempts==3) {
+       $q = "UPDATE login_attempts SET Attempts= ?, lastlogin=NOW() WHERE ip = ?";
+       $this->executeUpdate($q, array(3 , $value));
+     }
+     else {
+       $q = "UPDATE login_attempts SET Attempts= ? WHERE ip = ?";
+       $this->executeUpdate($q, array($attempts, $value));
+     }
+   }
+   else {
+     $q = "INSERT INTO login_attempts (Attempts,IP,lastlogin) values (1, ?, NOW())";
+     $this->executeUpdate($q, array($value));
+   }
+}
+
+function clearLoginAttempts($value) {
+
+  $q = "UPDATE login_attempts SET Attempts = 0 WHERE ip = ?"; 
+  return $this->executeUpdate($q, array($value));
+}
 }
 
 ?>

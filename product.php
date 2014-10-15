@@ -1,5 +1,10 @@
 <?php
     require("config.php");
+    if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on")
+    {
+    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+    exit();
+    }
     $_SESSION['current_page'] = "product.php";
     $submitted_username = '';
     $logged_in = false;
@@ -29,7 +34,7 @@
     <meta name="description" content="A web shop for the course Web security [EITF05]">
     <meta name="author" content="Group 13">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
 

@@ -1,5 +1,10 @@
 <?php
     require("config.php");
+    if(empty($_SERVER["HTTPS"]) || $_SERVER["HTTPS"] !== "on")
+    {
+    header("Location: https://" . $_SERVER["HTTP_HOST"] . $_SERVER["REQUEST_URI"]);
+    exit();
+    }
     $_SESSION['current_page'] = "index.php";
     $submitted_username = '';
     $logged_in = false;
@@ -26,7 +31,7 @@
     <meta name="description" content="A web shop for the course Web security [EITF05]">
     <meta name="author" content="Group 13">
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
     <script src="assets/js/bootstrap.min.js"></script>
     <link href="assets/css/bootstrap.min.css" rel="stylesheet" media="screen">
     <style type="text/css">
@@ -102,6 +107,11 @@
           <li class="dropdown">
             <a class="dropdown-toggle" href="#" data-toggle="dropdown">Login <strong class="caret"></strong></a>
             <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
+                <?php if(!empty($_SESSION['login_denied']) && $_SESSION['login_denied'] == true){
+                    ?>
+                    Access denied for 30 min
+                <?php
+                } ?>
                 <form action="login.php" method="post">
                     Username:<br />
                     <input type="text" name="username" value="<?php echo $submitted_username; ?>" />

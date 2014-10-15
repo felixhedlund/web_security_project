@@ -4,6 +4,7 @@ DROP TABLE IF EXISTS orders;
 DROP TABLE IF EXISTS products;
 DROP TABLE IF EXISTS order_products;
 DROP TABLE IF EXISTS reviews;
+DROP TABLE IF EXISTS login_attempts;
 SET FOREIGN_KEY_CHECKS = 1;
 
 CREATE TABLE customers (
@@ -25,6 +26,12 @@ CREATE TABLE reviews (
   customer_id    bigint NOT NULL REFERENCES customers(id),
   product_id     bigint NOT NULL REFERENCES products(id),
   PRIMARY KEY (customer_id, product_id));
+
+CREATE TABLE login_attempts(
+IP  varchar(20) NOT NULL,
+Attempts int NOT NULL,
+LastLogin DATETIME NOT NULL 
+);
 
 ##### TEST DATA #####
 INSERT INTO products VALUES (NULL, 'Sphynx', 'assets/images/cat01.jpg', 1500);
